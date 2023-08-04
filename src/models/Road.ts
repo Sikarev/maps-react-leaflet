@@ -1,4 +1,4 @@
-export interface Roads {
+export interface Road {
   id:           string;
   name:         string;
   number:       string;
