@@ -1,28 +1,17 @@
 import { MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
 import styles from './style.module.css'
-import { useEffect, useState } from "react";
-import { fetchDevices, fetchRoads } from "../../utils/api.ts";
-import { Road } from "../../models/Road.ts";
-import { Device } from "../../models/Devices.ts";
+import useRoadMap from './useRoadMap.ts';
 
 const Map = () => {
-  const position = [54.6195283689314, 39.7427952289581];
-
-  const [roads, setRoads] = useState<Road[]>([]);
-  const [devices, setDevices] = useState<Device[]>([]);
-
-  useEffect(() => {
-    fetchRoads().then(roads => { setRoads(roads) });
-    fetchDevices().then(devices => { setDevices(devices) });
-  }, []);
+  const { defaultPosition, roads, devices, refreshRoads, refreshDevices } = useRoadMap();
 
   return (
-    <MapContainer className={styles.mapContainer} center={position} zoom={13}>
+    <MapContainer className={styles.mapContainer} center={defaultPosition} zoom={13}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {roads.map((road) => (<Polyline positions={road.coordinates} pathOptions={{ color: 'red' }} />))}
+      {roads.map((road) => (<Polyline positions={road.coordinates} pathOptions={{ color: 'red', weight: 1 }} />))}
       {devices.map((device) => (
         <Marker position={[device.lat, device.lon]}>
           <Popup>
