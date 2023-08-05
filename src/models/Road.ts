@@ -20,3 +20,9 @@ export enum RoadType {
   Regional = 'Региональное',
   RegionalAndMunicipal = 'Региональное или межмуниципальное',
 }
+
+export const RoadColor = {
+  [RoadType.Municipal]: 'blue',
+  [RoadType.Regional]: 'red',
+  [RoadType.RegionalAndMunicipal]: 'green',
+}
