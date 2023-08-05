@@ -9,25 +9,36 @@ const useRoadMap = () => {
   const [roads, setRoads] = useState<Road[]>([]);
   const [devices, setDevices] = useState<Device[]>([]);
 
+  const [isFetching, setIsFetching] = useState(false);
+
+
   const refreshRoads = () => {
-    fetchRoads().then(roads => { setRoads(roads) });
+    return fetchRoads().then(roads => { setRoads(roads) });
   };
 
   const refreshDevices = () => {
-    fetchDevices().then(devices => { setDevices(devices) });
+    return fetchDevices().then(devices => { setDevices(devices) });
+  }
+
+  const refreshData = () => {
+    setIsFetching(true)
+
+    setRoads([]);
+    setDevices([]);
+
+    return Promise.all([refreshRoads(), refreshDevices()]).finally(() => setIsFetching(false));
   }
 
   useEffect(() => {
-    refreshRoads();
-    refreshDevices();
+    refreshData();
   }, []);
 
   return {
     defaultPosition,
     roads,
     devices,
-    refreshRoads,
-    refreshDevices,
+    refreshData,
+    isFetching,
   }
 }
 

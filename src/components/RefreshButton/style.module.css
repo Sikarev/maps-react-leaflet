@@ -1,0 +1,6 @@
+.refreshButton {
+    z-index: 99999;
+    position: absolute !important;
+    right: 1em;
+    top: 1em;
+}
